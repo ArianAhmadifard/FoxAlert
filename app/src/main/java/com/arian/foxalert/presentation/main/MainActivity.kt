@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -34,6 +35,7 @@ import com.arian.foxalert.presentation.events.EventScreen
 import com.arian.foxalert.ui.theme.FoxAlertTheme
 import com.arian.foxalert.ui.theme.FoxColor80
 import com.arian.foxalert.ui.theme.FoxGrey80
+import com.arian.foxalert.ui.theme.Pink80
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +78,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun FoxBottomNavigationBar(navController: NavHostController) {
+    val isDark = isSystemInDarkTheme()
+    val backgroundColor = if (isDark) FoxGrey80 else Color.White
+    val selectedLabelColor = if (isDark) Color.White else Color.Black
+    val unselectedLabelColor = if (isDark) Color.LightGray else Color.Gray
+
     val navigationItems = listOf(
         NavigationItem(
             title = "Event",
@@ -95,11 +102,11 @@ fun FoxBottomNavigationBar(navController: NavHostController) {
     )
 
     val selectedNavigationIndex = rememberSaveable {
-        mutableIntStateOf(0)
+        mutableIntStateOf(1)
     }
 
     NavigationBar(
-        containerColor = Color.White
+        containerColor = backgroundColor
     ) {
         navigationItems.forEachIndexed { index, item ->
             NavigationBarItem(
@@ -115,20 +122,17 @@ fun FoxBottomNavigationBar(navController: NavHostController) {
                     Text(
                         item.title,
                         color = if (index == selectedNavigationIndex.intValue)
-                            Color.Black
-                        else Color.Gray
+                            selectedLabelColor
+                        else unselectedLabelColor
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = FoxColor80,
-                    indicatorColor = FoxGrey80
+                    selectedIconColor = if(isDark) FoxColor80 else Color.Black ,
+                    indicatorColor = if (isDark) Pink80 else FoxColor80
                 )
-
             )
         }
     }
-
-
 }
 
 

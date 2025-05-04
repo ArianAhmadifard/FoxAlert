@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.arian.foxalert"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -66,7 +66,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.compose.calendar)
-    // [https://developer.android.com/jetpack/androidx/releases/room]
+
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     kapt(libs.androidx.room.room.compiler)
