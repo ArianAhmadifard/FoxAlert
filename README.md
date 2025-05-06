@@ -48,7 +48,7 @@ The application follows the principles of **Clean Architecture** and the **MVVM*
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your_username/fox-alert.git](https://github.com/your_username/fox-alert.git)
+    git clone [https://github.com/ArianAhmadifard/FoxAlert.git]
     ```
     *(Replace `your_username` with your actual GitHub username)*
 
