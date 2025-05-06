@@ -18,10 +18,13 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,18 +34,22 @@ import com.arian.foxalert.presentation.NavigationItem
 import com.arian.foxalert.presentation.Screen
 import com.arian.foxalert.presentation.calendar.CalendarScreen
 import com.arian.foxalert.presentation.category.CategoryScreen
+import com.arian.foxalert.presentation.category.CategoryViewModel
 import com.arian.foxalert.presentation.events.EventScreen
 import com.arian.foxalert.ui.theme.FoxAlertTheme
 import com.arian.foxalert.ui.theme.FoxColor80
 import com.arian.foxalert.ui.theme.FoxGrey80
 import com.arian.foxalert.ui.theme.Pink80
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
+
             val navController = rememberNavController()
             FoxAlertTheme {
                 Scaffold(
@@ -51,6 +58,7 @@ class MainActivity : ComponentActivity() {
                         FoxBottomNavigationBar(navController)
                     }
                 ) { innerPadding ->
+
                     val graph =
                         navController.createGraph(startDestination = Screen.Calendar.route) {
                             composable(route = Screen.Event.route) {
@@ -60,7 +68,14 @@ class MainActivity : ComponentActivity() {
                                 CalendarScreen()
                             }
                             composable(route = Screen.Category.route) {
-                                CategoryScreen()
+                                val categoryViewModel: CategoryViewModel = hiltViewModel()
+                                val categories by categoryViewModel.categories.collectAsState()
+                                CategoryScreen(categories, onDeleteClick = {
+                                    categoryViewModel.deleteCategoryIfExists(it)
+                                }, onAddCategoryClick = {
+                                    categoryViewModel.insertCategoryIfNotExists(it)
+                                })
+
                             }
 
                         }
