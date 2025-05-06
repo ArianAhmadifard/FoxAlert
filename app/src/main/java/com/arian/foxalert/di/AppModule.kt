@@ -11,6 +11,9 @@ import com.arian.foxalert.data.repository.CategoryRepositoryImpl
 import com.arian.foxalert.data.repository.EventRepositoryImpl
 import com.arian.foxalert.domain.repository.CategoryRepository
 import com.arian.foxalert.domain.repository.EventRepository
+import com.arian.foxalert.domain.usecase.cateogry.DeleteCategoryUseCase
+import com.arian.foxalert.domain.usecase.cateogry.GetAllCategoriesUseCase
+import com.arian.foxalert.domain.usecase.cateogry.InsertCategoryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,9 +25,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Provides
-    fun providesMyApplicationInstance(application: Application): FoxApplication =
-        application as FoxApplication
+
 
     @Singleton
     @Provides
@@ -57,5 +58,4 @@ object AppModule {
     fun provideCategoryRepository(categoryDao: CategoryDao): CategoryRepository {
         return CategoryRepositoryImpl(categoryDao)
     }
-
 }

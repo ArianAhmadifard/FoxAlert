@@ -13,6 +13,10 @@ class CategoryRepositoryImpl(
         categoryDao.insertCategory(category)
     }
 
+    override suspend fun deleteCategoryByName(name: String) {
+        categoryDao.deleteCategoryByName(name)
+    }
+
     override suspend fun deleteCategory(category: CategoryEntity) {
         categoryDao.deleteCategory(category)
     }
@@ -20,4 +24,5 @@ class CategoryRepositoryImpl(
     override fun getAllCategories(): Flow<List<CategoryEntity>> {
         return categoryDao.getAllCategories()
     }
+
 }

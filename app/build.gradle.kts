@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
     kotlin("kapt")
 }
 
@@ -45,6 +46,8 @@ kapt {
 }
 
 dependencies {
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
@@ -69,8 +72,10 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
-    kapt(libs.androidx.room.room.compiler)
+    kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
-
-
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v280)
+    implementation (libs.kotlinx.metadata.jvm)
 }

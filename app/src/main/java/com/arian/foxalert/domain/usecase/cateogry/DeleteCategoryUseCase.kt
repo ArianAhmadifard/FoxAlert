@@ -10,6 +10,6 @@ class DeleteCategoryUseCase
 constructor(
     private val categoryRepository: CategoryRepository,
 ) {
-    suspend operator fun invoke(category: CategoryEntity) =
-        categoryRepository.deleteCategory(category)
+    suspend operator fun invoke(categoryEntity: CategoryEntity) =
+        categoryRepository.deleteCategory(categoryEntity)
 }

@@ -7,8 +7,8 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        mavenCentral()
         gradlePluginPortal()
+        mavenCentral()
     }
 }
 dependencyResolutionManagement {
