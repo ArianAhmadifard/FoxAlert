@@ -63,13 +63,11 @@ Contributions are welcome! If you find a bug or have an idea for an improvement,
 
 ## 📄 License
 
-This project is licensed under the [Choose a License, e.g., MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details. *(Make sure you have a LICENSE file in your repository)*
+This project is licensed under the [Choose a License, e.g., MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details. 
 
 ## ✍️ Author
 
-* [Your Name / GitHub Username](Link to your GitHub profile)
-    *(Add your name or link to your profile)*
+* [https://github.com/ArianAhmadifard]
+* [https://www.linkedin.com/in/arian-ahmadifard/]
 
 ---
-
-**Note:** Replace the placeholder links, names, and license information with your actual project details.
