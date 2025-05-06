@@ -50,7 +50,6 @@ The application follows the principles of **Clean Architecture** and the **MVVM*
     ```bash
     git clone [https://github.com/ArianAhmadifard/FoxAlert.git]
     ```
-    *(Replace `your_username` with your actual GitHub username)*
 
 2.  **Open in Android Studio:** Open the cloned project in Android Studio.
 
