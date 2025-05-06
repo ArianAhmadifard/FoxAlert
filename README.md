@@ -63,7 +63,7 @@ Contributions are welcome! If you find a bug or have an idea for an improvement,
 
 ## 📄 License
 
-This project is licensed under the [َApache](LICENSE) - see the [LICENSE](https://github.com/ArianAhmadifard/FoxAlert/blob/dev/LICENSE) file for details. 
+This project is licensed under the [َApache 2.0](LICENSE) - see the [LICENSE](https://github.com/ArianAhmadifard/FoxAlert/blob/dev/LICENSE) file for details. 
 
 ## ✍️ Author
 
