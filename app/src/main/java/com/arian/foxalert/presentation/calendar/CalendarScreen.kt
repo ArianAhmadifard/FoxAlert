@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,20 +13,32 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.arian.foxalert.data.model.CategoryEntity
+import com.arian.foxalert.data.model.EventEntity
+import com.arian.foxalert.ui.theme.FoxColor40
 import com.arian.foxalert.ui.theme.FoxColor80
 import com.arian.foxalert.ui.theme.FoxGrey80
 import com.arian.foxalert.ui.theme.Pink80
@@ -40,13 +53,55 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun CalendarScreen() {
+fun CalendarScreen(
+    categories: List<CategoryEntity>,
+    onAddEventClick: (event: EventEntity) -> Unit,
+) {
+
+    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+
+    var showAddEventDialog by remember { mutableStateOf(false) }
+
+    val showToast = remember { mutableStateOf(false) }
+    val toastMessage = remember { mutableStateOf("") }
+
+    LaunchedEffect(showToast.value) {
+        if (showToast.value) {
+            kotlinx.coroutines.delay(2000)
+            showToast.value = false
+        }
+    }
+
+    if (showAddEventDialog && selectedDate != null) {
+        AddEventDialog(
+            selectedDate = selectedDate!!,
+            categories = categories,
+            onDismissRequest = { showAddEventDialog = false },
+            onEventCreated = { title, description, categoryName ->
+                val newEvent = EventEntity(
+                    title = title,
+                    description = description,
+                    date = selectedDate!!,
+                    categoryId = categoryName
+                )
+                onAddEventClick(newEvent)
+                showAddEventDialog = false
+            }
+        )
+    }
+
     Column {
-        HorizontalCalendarView()
+
+        HorizontalCalendarView(
+            selectedDate = selectedDate,
+            onDateSelected = { date -> selectedDate = date }
+        )
+
         Spacer(Modifier.height(16.dp))
+
         Button(
             onClick = {
-
+                showAddEventDialog = true
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -57,17 +112,21 @@ fun CalendarScreen() {
         ) {
             Text("New Event", color = Color.White)
         }
+
+
     }
 }
 
 @Composable
-fun HorizontalCalendarView() {
+fun HorizontalCalendarView(
+    selectedDate: LocalDate?,
+    onDateSelected: (LocalDate?) -> Unit
+) {
     val today = remember { LocalDate.now() }
     val startMonth = remember { YearMonth.now().minusMonths(12) }
-    val endMonth = remember { YearMonth.of(2040, Month.DECEMBER) } // Max = Dec 2040
+    val endMonth = remember { YearMonth.of(2040, Month.DECEMBER) }
     val currentMonth = remember { YearMonth.now() }
     val coroutineScope = rememberCoroutineScope()
-    val selectedDate = remember { mutableStateOf<LocalDate?>(null) }
 
     val calendarState = rememberCalendarState(
         startMonth = startMonth,
@@ -98,7 +157,8 @@ fun HorizontalCalendarView() {
                 .background(FoxGrey80),
             state = calendarState,
             dayContent = { day ->
-                val isSelected = day.date == selectedDate.value
+
+                val isSelected = day.date == selectedDate
                 val isToday = day.date == today
 
                 val backgroundColor = when {
@@ -115,14 +175,16 @@ fun HorizontalCalendarView() {
                         .background(
                             backgroundColor
                         )
-                        .clickable {  selectedDate.value = day.date },
+                        .clickable {
+                            onDateSelected(day.date)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = day.date.dayOfMonth.toString(),
                         style = MaterialTheme.typography.bodySmall,
                         color = if (day.position == DayPosition.MonthDate) {
-                            if (isToday || isSelected){
+                            if (isToday || isSelected) {
                                 Color.White
                             } else {
                                 Pink80
@@ -147,6 +209,151 @@ fun HorizontalCalendarView() {
             }
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddEventDialog(
+    selectedDate: LocalDate,
+    categories: List<CategoryEntity>,
+    onDismissRequest: () -> Unit,
+    onEventCreated: (title: String, description: String, categoryName: String) -> Unit
+) {
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+
+    var expanded by remember { mutableStateOf(false) }
+    var selectedCategory: CategoryEntity? by remember { mutableStateOf(categories.firstOrNull()) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text("New Event on ${selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))}") },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = title,
+                    onValueChange = {
+                        errorMessage = null
+                        title = it
+                    },
+                    label = { Text("Title", color = Color.White) },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = FoxColor80,
+                        unfocusedBorderColor = FoxColor40,
+                        errorBorderColor = Color.Red,
+                    ),
+                )
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    label = { Text("Description (Optional)", color = Color.White) },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = FoxColor80,
+                        unfocusedBorderColor = FoxColor40,
+                        errorBorderColor = Color.Red,
+                    ),
+                )
+                Spacer(Modifier.height(8.dp))
+
+                // --- Category Selection Spinner (ExposedDropdownMenuBox) ---
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = {
+                            println("DEBUG: ExposedDropdownMenuBox clicked! Toggling expanded from $expanded to ${!expanded}") // <-- Add this line
+                            expanded = !expanded
+                        }
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            readOnly = true, // Make it read-only as selection is via dropdown
+                            value = selectedCategory?.name
+                                ?: "Select Category (Optional)", // Display selected name or hint
+                            onValueChange = { }, // No direct editing
+                            label = { Text("Category", color = Color.White) },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                            },
+                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                                focusedBorderColor = FoxColor80,
+                                unfocusedBorderColor = FoxColor40,
+                                errorBorderColor = Color.Red,
+                            ),
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+
+                            ) {
+                            // Option for no category
+                            categories.forEach { category ->
+                                DropdownMenuItem(
+                                    contentPadding = PaddingValues(4.dp),
+                                    modifier = Modifier,
+                                    text = {
+                                        category.name
+                                    },
+                                    onClick = {
+                                        selectedCategory = category
+                                        expanded = false
+                                        errorMessage = null
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(Modifier.height(8.dp))
+                }
+                errorMessage?.let { message ->
+                    Text(
+                        text = message,
+                        color = Color.Red, // Use theme's error color
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    val isTitleValid = title.isNotBlank()
+                    val isCategorySelected =
+                        selectedCategory != null
+
+
+                    if (isTitleValid && isCategorySelected) {
+                        errorMessage = null
+                        onEventCreated(title, description, selectedCategory?.name?:"") // Pass the ID
+                    } else {
+                        errorMessage = when {
+                            !isTitleValid && !isCategorySelected -> "Title and Category are required."
+                            !isTitleValid -> "Title is required."
+                            !isCategorySelected -> "Category is required."
+                            else -> null
+                        }
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = FoxColor80)
+            ) {
+                Text("Save", color = Color.White)
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = onDismissRequest,
+                colors = ButtonDefaults.buttonColors(containerColor = FoxColor80)
+            ) {
+                Text("Cancel", color = Color.White)
+            }
+        }
+    )
 }
 
 

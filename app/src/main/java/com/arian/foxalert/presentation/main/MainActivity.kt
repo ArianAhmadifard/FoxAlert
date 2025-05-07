@@ -1,6 +1,7 @@
 package com.arian.foxalert.presentation.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +34,7 @@ import androidx.navigation.createGraph
 import com.arian.foxalert.presentation.NavigationItem
 import com.arian.foxalert.presentation.Screen
 import com.arian.foxalert.presentation.calendar.CalendarScreen
+import com.arian.foxalert.presentation.calendar.CalendarViewModel
 import com.arian.foxalert.presentation.category.CategoryScreen
 import com.arian.foxalert.presentation.category.CategoryViewModel
 import com.arian.foxalert.presentation.events.EventScreen
@@ -65,7 +67,12 @@ class MainActivity : ComponentActivity() {
                                 EventScreen()
                             }
                             composable(route = Screen.Calendar.route) {
-                                CalendarScreen()
+                                val calendarViewModel: CalendarViewModel = hiltViewModel()
+                                val categories by calendarViewModel.categories.collectAsState()
+                                Log.i("damoon", "category size: ${categories.size}")
+                                CalendarScreen(categories) {
+                                    calendarViewModel.insertEvent(it)
+                                }
                             }
                             composable(route = Screen.Category.route) {
                                 val categoryViewModel: CategoryViewModel = hiltViewModel()

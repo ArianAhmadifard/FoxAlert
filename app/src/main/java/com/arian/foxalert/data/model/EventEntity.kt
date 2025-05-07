@@ -21,5 +21,5 @@ data class EventEntity(
     val title: String,
     val description: String,
     val date: LocalDate, // requires a type converter
-    val categoryId: Int? // nullable in case category is deleted
+    val categoryId: String
 )
