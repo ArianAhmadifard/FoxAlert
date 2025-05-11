@@ -1,5 +1,7 @@
 package com.arian.foxalert.presentation.calendar
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -34,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arian.foxalert.data.model.CategoryEntity
@@ -64,6 +67,7 @@ fun CalendarScreen(
 
     val showToast = remember { mutableStateOf(false) }
     val toastMessage = remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     LaunchedEffect(showToast.value) {
         if (showToast.value) {
@@ -71,6 +75,14 @@ fun CalendarScreen(
             showToast.value = false
         }
     }
+
+    LaunchedEffect(showToast.value, toastMessage.value) {
+        if (showToast.value && toastMessage.value.isNotBlank()) {
+            Toast.makeText(context, toastMessage.value, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
     if (showAddEventDialog && selectedDate != null) {
         AddEventDialog(
@@ -82,9 +94,11 @@ fun CalendarScreen(
                     title = title,
                     description = description,
                     date = selectedDate!!,
-                    categoryId = categoryName
+                    categoryName = categoryName
                 )
                 onAddEventClick(newEvent)
+                toastMessage.value = "Event '${title}' created!"
+                showToast.value = true
                 showAddEventDialog = false
             }
         )
@@ -225,7 +239,7 @@ fun AddEventDialog(
     var expanded by remember { mutableStateOf(false) }
     var selectedCategory: CategoryEntity? by remember { mutableStateOf(categories.firstOrNull()) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
+    Log.i("damoon", "AddEventDialog: damoon: $categories ")
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = { Text("New Event on ${selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))}") },
@@ -237,7 +251,7 @@ fun AddEventDialog(
                         errorMessage = null
                         title = it
                     },
-                    label = { Text("Title", color = Color.White) },
+                    label = { Text("Title", color = MaterialTheme.colorScheme.onSurface) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                         focusedBorderColor = FoxColor80,
@@ -245,11 +259,13 @@ fun AddEventDialog(
                         errorBorderColor = Color.Red,
                     ),
                 )
+
                 Spacer(Modifier.height(8.dp))
+
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Description (Optional)", color = Color.White) },
+                    label = { Text("Description (Optional)", color = MaterialTheme.colorScheme.onSurface) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                         focusedBorderColor = FoxColor80,
@@ -269,12 +285,14 @@ fun AddEventDialog(
                         }
                     ) {
                         OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            readOnly = true, // Make it read-only as selection is via dropdown
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .menuAnchor(),
+                            readOnly = true,
                             value = selectedCategory?.name
-                                ?: "Select Category (Optional)", // Display selected name or hint
-                            onValueChange = { }, // No direct editing
-                            label = { Text("Category", color = Color.White) },
+                                ?: "Select Category (Required)",
+                            onValueChange = { },
+                            label = { Text("Category", color = MaterialTheme.colorScheme.onSurface) },
                             trailingIcon = {
                                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                             },
@@ -295,7 +313,10 @@ fun AddEventDialog(
                                     contentPadding = PaddingValues(4.dp),
                                     modifier = Modifier,
                                     text = {
-                                        category.name
+                                        Text(
+                                            text = category.name,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
                                     },
                                     onClick = {
                                         selectedCategory = category
@@ -330,7 +351,7 @@ fun AddEventDialog(
 
                     if (isTitleValid && isCategorySelected) {
                         errorMessage = null
-                        onEventCreated(title, description, selectedCategory?.name?:"") // Pass the ID
+                        onEventCreated(title, description, selectedCategory?.name?:"")
                     } else {
                         errorMessage = when {
                             !isTitleValid && !isCategorySelected -> "Title and Category are required."

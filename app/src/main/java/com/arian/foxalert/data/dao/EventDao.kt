@@ -23,6 +23,6 @@ interface EventDao {
     @Query("SELECT * FROM events ORDER BY date ASC")
     fun getAllEvents(): Flow<List<EventEntity>>
 
-    @Query("SELECT * FROM events WHERE categoryId = :categoryId")
+    @Query("SELECT * FROM events WHERE categoryName = :categoryId")
     fun getEventsByCategory(categoryId: Int): Flow<List<EventEntity>>
 }

@@ -10,16 +10,16 @@ import java.time.LocalDate
     tableName = "events",
     foreignKeys = [ForeignKey(
         entity = CategoryEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["categoryId"],
+        parentColumns = ["name"],
+        childColumns = ["categoryName"],
         onDelete = ForeignKey.SET_NULL
     )],
-    indices = [Index("categoryId")]
+    indices = [Index("categoryName")]
 )
 data class EventEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val description: String,
     val date: LocalDate, // requires a type converter
-    val categoryId: String
+    val categoryName: String
 )

@@ -1,5 +1,6 @@
 package com.arian.foxalert.presentation.calendar
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arian.foxalert.data.model.CategoryEntity
@@ -39,6 +40,8 @@ class CalendarViewModel @Inject constructor(
 
     fun insertEvent(event: EventEntity) {
         viewModelScope.launch {
+            val x = event
+            print(x)
             insertEventUseCase(event)
         }
     }

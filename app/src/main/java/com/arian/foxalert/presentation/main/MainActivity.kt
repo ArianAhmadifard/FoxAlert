@@ -38,6 +38,7 @@ import com.arian.foxalert.presentation.calendar.CalendarViewModel
 import com.arian.foxalert.presentation.category.CategoryScreen
 import com.arian.foxalert.presentation.category.CategoryViewModel
 import com.arian.foxalert.presentation.events.EventScreen
+import com.arian.foxalert.presentation.events.EventViewModel
 import com.arian.foxalert.ui.theme.FoxAlertTheme
 import com.arian.foxalert.ui.theme.FoxColor80
 import com.arian.foxalert.ui.theme.FoxGrey80
@@ -64,7 +65,11 @@ class MainActivity : ComponentActivity() {
                     val graph =
                         navController.createGraph(startDestination = Screen.Calendar.route) {
                             composable(route = Screen.Event.route) {
-                                EventScreen()
+                                val eventViewModel: EventViewModel = hiltViewModel()
+                                val allEvents by eventViewModel.allEvent.collectAsState()
+                                EventScreen(allEvents, onDeleteClick = {
+                                    eventViewModel.deleteEventIfExists(it)
+                                })
                             }
                             composable(route = Screen.Calendar.route) {
                                 val calendarViewModel: CalendarViewModel = hiltViewModel()
