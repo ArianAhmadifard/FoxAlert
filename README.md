@@ -19,9 +19,9 @@ Built with modern Android development tools, including Jetpack Compose, Room Dat
 
 *(Replace these with actual screenshots or a GIF of your app)*
 
-<img src="link_to_screenshot_1.png" alt="Screenshot 1" width="300"/>
-<img src="link_to_screenshot_2.png" alt="Screenshot 2" width="300"/>
-<img src="link_to_gif.gif" alt="App GIF" width="300"/>
+<img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1003.jpg" alt="Screenshot 1" width="300"/>
+<img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1002.jpg" alt="Screenshot 2" width="300"/>
+<img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1001.jpg" alt="Screenshot 3" width="300"/>
 
 ## 🛠 Technologies Used
 
