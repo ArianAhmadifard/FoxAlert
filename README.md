@@ -15,9 +15,7 @@ Built with modern Android development tools, including Jetpack Compose, Room Dat
 * **Offline First:** All your data is stored locally using Room Database, ensuring access even without an internet connection.
 * **Clean & Intuitive UI:** A user-friendly interface built with Jetpack Compose.
 
-## 📸 Screenshots / GIFs
-
-*(Replace these with actual screenshots or a GIF of your app)*
+## 📸 Screenshots 
 
 <img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1003.jpg" alt="Screenshot 1" width="300"/>
 <img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1002.jpg" alt="Screenshot 2" width="300"/>
