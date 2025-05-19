@@ -16,11 +16,11 @@ Built with modern Android development tools, including Jetpack Compose, Room Dat
 * **Clean & Intuitive UI:** A user-friendly interface built with Jetpack Compose.
 
 ## 📸 Screenshots 
-
+<div style="display: inline-block;">
 <img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1003.jpg" alt="Screenshot 1" width="300"/>
 <img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1002.jpg" alt="Screenshot 2" width="300"/>
 <img src="https://github.com/ArianAhmadifard/FoxAlert/blob/master/1001.jpg" alt="Screenshot 3" width="300"/>
-
+</div>
 ## 🛠 Technologies Used
 
 * **Kotlin:** A modern, concise, and safe programming language for Android development.
