@@ -39,6 +39,7 @@ import com.arian.foxalert.presentation.category.CategoryScreen
 import com.arian.foxalert.presentation.category.CategoryViewModel
 import com.arian.foxalert.presentation.events.EventScreen
 import com.arian.foxalert.presentation.events.EventViewModel
+import com.arian.foxalert.presentation.worker.AlarmScheduler
 import com.arian.foxalert.ui.theme.FoxAlertTheme
 import com.arian.foxalert.ui.theme.FoxColor80
 import com.arian.foxalert.ui.theme.FoxGrey80
@@ -69,6 +70,7 @@ class MainActivity : ComponentActivity() {
                                 val allEvents by eventViewModel.allEvent.collectAsState()
                                 EventScreen(allEvents, onDeleteClick = {
                                     eventViewModel.deleteEventIfExists(it)
+                                    AlarmScheduler.cancelAlarm(this@MainActivity , it.id, it.title)
                                 })
                             }
                             composable(route = Screen.Calendar.route) {
@@ -77,6 +79,7 @@ class MainActivity : ComponentActivity() {
                                 Log.i("damoon", "category size: ${categories.size}")
                                 CalendarScreen(categories) {
                                     calendarViewModel.insertEvent(it)
+                                    AlarmScheduler.scheduleAlarm(this@MainActivity , it)
                                 }
                             }
                             composable(route = Screen.Category.route) {

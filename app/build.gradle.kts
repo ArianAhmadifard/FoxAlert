@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
+//    id("com.google.gms.google-services")
     kotlin("kapt")
 }
 
@@ -78,4 +79,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx.v280)
     implementation (libs.kotlinx.metadata.jvm)
+//    implementation(libs.androidx.work.runtime.ktx)
+//    implementation(libs.firebase.bom)
+//    implementation(libs.firebase.analytics)
 }

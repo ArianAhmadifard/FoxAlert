@@ -10,6 +10,7 @@ import com.arian.foxalert.domain.usecase.event.DeleteEventUseCase
 import com.arian.foxalert.domain.usecase.event.GetAllEventsUseCase
 import com.arian.foxalert.domain.usecase.event.GetEventByCategoryUseCase
 import com.arian.foxalert.domain.usecase.event.InsertEventUseCase
+import com.arian.foxalert.presentation.worker.AlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,6 +44,7 @@ class CalendarViewModel @Inject constructor(
             val x = event
             print(x)
             insertEventUseCase(event)
+
         }
     }
 

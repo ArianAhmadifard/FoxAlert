@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65445627621",
+    "project_id": "foxalert-6adbc",
+    "storage_bucket": "foxalert-6adbc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65445627621:android:5c49cb3cb5f64b7e3e760c",
+        "android_client_info": {
+          "package_name": "com.arian.foxalert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEfFAqh-Bm-LqaTXUPingjQKF8rZpvLAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

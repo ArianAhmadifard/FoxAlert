@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.1"
 compose = "2.6.2"
+firebaseBom = "33.13.0"
 hiltAndroid = "2.55"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.1.0"
@@ -17,6 +18,8 @@ navigationCompose = "2.8.9"
 navigationRuntimeAndroid = "2.9.0-rc01"
 roomRuntime = "2.7.1"
 appcompat = "1.7.0"
+workRuntimeKtx = "2.10.1"
+googleServices = "4.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,7 +32,10 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 compose-calendar = { module = "com.kizitonwose.calendar:compose", version.ref = "compose" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -54,4 +60,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version = "2.55" }
-
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }

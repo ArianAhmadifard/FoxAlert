@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.arian.foxalert" />
+                  <option name="mobileSdkAppId" value="1:65445627621:android:5c49cb3cb5f64b7e3e760c" />
+                  <option name="projectId" value="foxalert-6adbc" />
+                  <option name="projectNumber" value="65445627621" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
