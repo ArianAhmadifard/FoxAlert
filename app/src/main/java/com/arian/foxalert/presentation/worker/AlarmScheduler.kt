@@ -25,8 +25,8 @@ object AlarmScheduler {
             time = eventDate
             add(Calendar.DAY_OF_YEAR, -1)
             // Set the time of day for the alarm (e.g., 9:00 AM the day before)
-            set(Calendar.HOUR_OF_DAY, 9) // You can make this configurable
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 14) // You can make this configurable
+            set(Calendar.MINUTE, 30)
             set(Calendar.SECOND, 0)
         }
 
@@ -40,7 +40,7 @@ object AlarmScheduler {
 
         // Create an intent that will trigger your AlarmReceiver
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            action = "com.your_app_package.EVENT_ALARM" // Use a unique action
+            action = "com.arian.foxalert.EVENT_ALARM" // Use a unique action
             putExtra("eventTitle", event.title)
             putExtra("eventId", event.id)
             putExtra("eventDate", event.date.toString()) // Pass date as string

@@ -26,9 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.arian.foxalert.data.model.CategoryEntity
 import com.arian.foxalert.data.model.EventEntity
-import com.arian.foxalert.presentation.category.CategoryItem
 import com.arian.foxalert.ui.theme.FoxColor40
 import com.arian.foxalert.ui.theme.FoxGrey80
 
@@ -50,8 +48,6 @@ fun EventScreen(
         }
     }
 }
-
-
 
 @Composable
 fun EventItem(
@@ -78,16 +74,27 @@ fun EventItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = event.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = if (isSystemInDarkTheme()) {
-                        Color.White
-                    } else {
-                        Color.Black
-                    }
-                )
+                Row {
+                    Text(
+                        text = event.title + " - ",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = if (isSystemInDarkTheme()) {
+                            Color.White
+                        } else {
+                            Color.Black
+                        }
+                    )
 
+                    Text(
+                        text = event.date.toString() ,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = if (isSystemInDarkTheme()) {
+                            Color.White
+                        } else {
+                            Color.Black
+                        }
+                    )
+                }
 
                 IconButton(
                     onClick = { onDeleteClick(event) },
